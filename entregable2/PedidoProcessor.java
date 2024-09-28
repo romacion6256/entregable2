@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import static java.lang.Thread.sleep;
+
 public class PedidoProcessor implements Runnable {
     private final OrderQueue orderQueue;
     private final ReentrantReadWriteLock bloqueo = new ReentrantReadWriteLock();
@@ -48,21 +50,30 @@ public class PedidoProcessor implements Runnable {
 
     private void procesarPago(Pedido pedido) {
         System.out.println("Procesando pago para pedido " + pedido.getId());
-        // Simulación del procesamiento de pago
+        // simulamos el procesamiento del pago con sleep
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     // Aquí es donde empaquetamos en paralelo usando parallelStream
     private void empaquetarPedidosEnParalelo(List<Pedido> pedidos) {
-        System.out.println("Empaquetando " + pedidos.size() + " pedidos en paralelo...");
         // Usamos parallelStream para empaquetar cada pedido en paralelo
         pedidos.parallelStream().forEach(pedido -> {
             System.out.println("Empaquetando pedido " + pedido.getId());
-            // Simulación del empaquetado
+            // simulación del empaquetado
         });
     }
 
     private void enviarPedido(Pedido pedido) {
         System.out.println("Enviando pedido " + pedido.getId());
-        // Simulación del envío del pedido
+        // simulamos el envio del pedido con sleep
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
