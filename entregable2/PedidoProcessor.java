@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class PedidoProcessor implements Runnable {
     private final OrderQueue orderQueue;
     private final ReentrantReadWriteLock bloqueo = new ReentrantReadWriteLock();
-    private final List<Pedido> pedidosBatch = new ArrayList<>();
+    private final List<Pedido> pedidosEnProceso = new ArrayList<>();
 
     public PedidoProcessor(OrderQueue orderQueue) {
         this.orderQueue = orderQueue;
@@ -22,22 +22,22 @@ public class PedidoProcessor implements Runnable {
                 if (pedido != null) {
                     // 1. Procesar el pago del pedido
                     procesarPago(pedido);
-                    pedidosBatch.add(pedido);  // Añadir pedido al batch para empaquetar
+                    pedidosEnProceso.add(pedido);  // Añadir pedido al batch para empaquetar
 
                     // 2. Si hay suficiente cantidad de pedidos o no quedan más pedidos en la cola
-                    if (pedidosBatch.size() >= 3 || !orderQueue.tienePedidos()) {
+                    if (pedidosEnProceso.size() >= 10 || !orderQueue.tienePedidos()) {
                         // 3. Empaquetar los pedidos del lote en paralelo
-                        for (Pedido p : pedidosBatch) {
-                            System.out.println("Pedido en batch: " + p.getId());
+                        for (Pedido p : pedidosEnProceso) {
+                            System.out.println("Pedido en proceso: " + p.getId());
                         }
 
-                        empaquetarPedidosEnParalelo(pedidosBatch);
+                        empaquetarPedidosEnParalelo(pedidosEnProceso);
 
                         // 4. Enviar los pedidos uno por uno (después de empaquetar)
-                        pedidosBatch.forEach(this::enviarPedido);
+                        pedidosEnProceso.forEach(this::enviarPedido);
 
                         // 5. Limpiar el batch después de empaquetar y enviar
-                        pedidosBatch.clear();
+                        pedidosEnProceso.clear();
                     }
                 }
             } finally {
