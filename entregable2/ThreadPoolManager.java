@@ -3,7 +3,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadPoolManager {
-    private static ThreadPoolManager instance;
+    private static ThreadPoolManager instancia;
     private final ExecutorService threadPool;
 
     private ThreadPoolManager(int poolSize) {
@@ -11,10 +11,10 @@ public class ThreadPoolManager {
     }
 
     public static synchronized ThreadPoolManager getInstance(int poolSize) {
-        if (instance == null) {
-            instance = new ThreadPoolManager(poolSize);
+        if (instancia == null) {
+            instancia = new ThreadPoolManager(poolSize);
         }
-        return instance;
+        return instancia;
     }
 
     public ExecutorService getThreadPool() {
