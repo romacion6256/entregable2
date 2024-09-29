@@ -18,7 +18,7 @@ public class PedidoProcessor implements Runnable {
     @Override
     public void run() {
         while (orderQueue.tienePedidos()) {
-            bloqueo.writeLock().lock();
+            bloqueo.writeLock().lock(); // Bloquear la cola para obtener un pedido
             try {
                 Pedido pedido = orderQueue.obtenerPedido();
                 if (pedido != null) {
@@ -42,7 +42,7 @@ public class PedidoProcessor implements Runnable {
                     }
                 }
             } finally {
-                bloqueo.writeLock().unlock();
+                bloqueo.writeLock().unlock(); // Desbloquear la cola después de obtener un pedido
             }
         }
     }
