@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class Main {
     public static void main(String[] args) {
-        int poolSize = 3;
+        int poolSize = 10;
         OrderQueue orderQueue = new OrderQueue();
         ThreadPoolManager threadPoolManager = ThreadPoolManager.getInstance(poolSize);
 

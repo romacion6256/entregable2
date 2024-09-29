@@ -28,11 +28,10 @@ public class PedidoProcessor implements Runnable {
 
                     // 2. Si hay suficiente cantidad de pedidos o no quedan más pedidos en la cola
                     if (pedidosEnProceso.size() >= 10 || !orderQueue.tienePedidos()) {
-                        // 3. Empaquetar los pedidos del lote en paralelo
                         for (Pedido p : pedidosEnProceso) {
                             System.out.println("Pedido en proceso: " + p.getId());
                         }
-
+                        // 3. Empaquetar los pedidos del lote en paralelo
                         empaquetarPedidosEnParalelo(pedidosEnProceso);
 
                         // 4. Enviar los pedidos uno por uno (después de empaquetar)

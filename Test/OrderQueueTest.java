@@ -18,17 +18,29 @@ public class OrderQueueTest {
 
     @Test
     public void testAgregarYObtenerPedido() {
-        Pedido pedido1 = new Pedido(1, false);
-        Pedido pedido2 = new Pedido(2, true); // Urgente
-        Pedido pedido3 = new Pedido(3, false);
+        OrderQueue orderQueue = new OrderQueue();
 
-        orderQueue.agregarPedido(pedido1);
-        orderQueue.agregarPedido(pedido2);
-        orderQueue.agregarPedido(pedido3);
+        // Crear pedidos urgente y no urgente
+        Pedido pedidoUrgente = new Pedido(1, true);
+        Pedido pedidoNoUrgente = new Pedido(2, false);
+        Pedido pedidoNoUrgente2 = new Pedido(3, false);
 
-        assertEquals(pedido2, orderQueue.obtenerPedido(), "El primer pedido debe ser el urgente");
-        assertEquals(pedido1, orderQueue.obtenerPedido(), "El segundo pedido debe ser el no urgente");
-        assertEquals(pedido3, orderQueue.obtenerPedido(), "El tercer pedido debe ser el otro no urgente");
+        // Agregar los pedidos a la cola
+        orderQueue.agregarPedido(pedidoNoUrgente);
+        orderQueue.agregarPedido(pedidoUrgente);
+        orderQueue.agregarPedido(pedidoNoUrgente2);
+
+        // El primer pedido recuperado debe ser el urgente
+        Pedido primerPedido = orderQueue.obtenerPedido();
+        assertTrue(primerPedido.isUrgente(), "El primer pedido debe ser el urgente");
+
+        // El segundo pedido recuperado debe ser el no urgente
+        Pedido segundoPedido = orderQueue.obtenerPedido();
+        assertFalse(segundoPedido.isUrgente(), "El segundo pedido debe ser el no urgente");
+
+        // El tercer pedido recuperado debe ser el no urgente
+        Pedido tercerPedido = orderQueue.obtenerPedido();
+        assertFalse(tercerPedido.isUrgente(), "El tercer pedido debe ser el no urgente");
     }
 
     @Test

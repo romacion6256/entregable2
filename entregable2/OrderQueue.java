@@ -14,12 +14,7 @@ public class OrderQueue {
     }
 
     public Pedido obtenerPedido() {
-        try {
-            return orderQueue.take(); // Toma pedidos de la cola
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        return null;
+        return orderQueue.poll(); // Toma pedidos de la cola y devuelve null si está vacía
     }
 
     public boolean tienePedidos() {
